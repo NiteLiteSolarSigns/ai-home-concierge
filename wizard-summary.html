@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Setup Summary</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .summary-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 15px;
+    }
+    .summary {
+      margin-bottom: 25px;
+    }
+    .summary p {
+      margin: 8px 0;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="summary-container">
+    <h2>Your HomeBot Is Ready!</h2>
+    <div class="summary" id="summary-section">
+      <!-- Data will be filled in by JS -->
+    </div>
+    <button onclick="finishSetup()">🚀 Launch My Digital Caretaker</button>
+  </div>
+
+  <script>
+    function displaySummary() {
+      const user = JSON.parse(localStorage.getItem("homeownerProfile")) || {};
+      const property = JSON.parse(localStorage.getItem("propertyProfile")) || {};
+
+      const summaryHTML = `
+        <p><strong>🏠 You:</strong></p>
+        <p>🍳 Cooking Preference: ${user.cook || "N/A"}</p>
+        <p🚗 Car: ${user.car || "N/A"}</p>
+        <p>🐾 Pets: ${user.pets || "N/A"}</p>
+
+        <p><strong>📍 Property:</strong></p>
+        <p>📆 Year Built: ${property.yearBuilt || "N/A"}</p>
+        <p>🔋 Solar Panels: ${property.solar || "N/A"}</p>
+        <p>🌿 Lawn Type: ${property.lawn || "N/A"}</p>
+      `;
+
+      document.getElementById("summary-section").innerHTML = summaryHTML;
+    }
+
+    function finishSetup() {
+      alert("Congrats! Your HomeBot is active. You’ll now receive smart suggestions tailored to your lifestyle and property.");
+      window.location.href = "index.html"; // You could replace this with a dashboard
+    }
+
+    window.onload = displaySummary;
+  </script>
+</body>
+</html>
+
