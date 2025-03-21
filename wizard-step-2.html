@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tell Us About the Property</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .step-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 25px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="step-container">
+    <h2>Now Tell Us About Your Home</h2>
+    <form onsubmit="savePropertyInfo(event)">
+      <label for="year">What year was your home built?</label>
+      <input id="year" type="number" placeholder="e.g. 1994" required />
+
+      <label for="solar">Do you have solar panels?</label>
+      <select id="solar" required>
+        <option value="">--Choose--</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+        <option value="planning">Planning to add them</option>
+      </select>
+
+      <label for="lawn">What kind of lawn do you have?</label>
+      <select id="lawn" required>
+        <option value="">--Choose--</option>
+        <option value="grass">Real Grass</option>
+        <option value="turf">Artificial Turf</option>
+        <option value="rock">Zero-Scape / Rock</option>
+      </select>
+
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+
+  <script>
+    function savePropertyInfo(e) {
+      e.preventDefault();
+
+      const property = {
+        yearBuilt: document.getElementById("year").value,
+        solar: document.getElementById("solar").value,
+        lawn: document.getElementById("lawn").value
+      };
+
+      localStorage.setItem("propertyProfile", JSON.stringify(property));
+      window.location.href = "wizard-summary.html"; // This is our next and final step
+    }
+  </script>
+</body>
+</html>
+
