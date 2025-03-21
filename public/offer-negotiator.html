@@ -1,0 +1,123 @@
+<!-- File: public/offer-negotiator.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Offer Negotiator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .negotiator-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 90%;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    .offer-box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+    }
+    label, select, input, button, textarea {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 1em;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="negotiator-container">
+    <h2>🏠 AI Offer Negotiator</h2>
+    <div class="offer-box">
+      <p><strong>Offer Received:</strong> $525,000</p>
+      <p><strong>Buyer ID:</strong> #14892</p>
+      <p><strong>Terms:</strong> 30-Day Close, Cash, No Contingencies</p>
+    </div>
+
+    <label>What would you like to do?</label>
+    <select id="action">
+      <option value="accept">✅ Accept Offer</option>
+      <option value="counter">🔄 Counter Offer</option>
+      <option value="decline">❌ Decline Offer</option>
+      <option value="negotiate">🧠 Let AI Negotiate</option>
+    </select>
+
+    <div id="counter-section" style="display: none;">
+      <label>New Price:</label>
+      <input type="number" id="counter-price" placeholder="$540,000" />
+
+      <label>Preferred Closing Date:</label>
+      <input type="date" id="closing-date" />
+
+      <label>Counter Terms (optional):</label>
+      <input type="text" id="custom-terms" placeholder="Include appliances, extend due diligence, etc." />
+    </div>
+
+    <div id="ai-section" style="display: none;">
+      <label>AI Instructions:</label>
+      <textarea id="ai-instructions" placeholder="Tell AI your goals (e.g. get at least $550k, close in 45 days, include roof inspection)..."></textarea>
+    </div>
+
+    <button onclick="submitResponse()">Submit</button>
+  </div>
+
+  <script>
+    document.getElementById("action").addEventListener("change", function() {
+      const value = this.value;
+      document.getElementById("counter-section").style.display = value === "counter" ? "block" : "none";
+      document.getElementById("ai-section").style.display = value === "negotiate" ? "block" : "none";
+    });
+
+    function submitResponse() {
+      const action = document.getElementById("action").value;
+
+      if (action === "accept") {
+        alert("✅ Offer accepted. Your concierge will begin preparing closing documents.");
+      } else if (action === "decline") {
+        alert("❌ Offer declined. Buyer will be notified.");
+      } else if (action === "counter") {
+        const newPrice = document.getElementById("counter-price").value;
+        const date = document.getElementById("closing-date").value;
+        const terms = document.getElementById("custom-terms").value;
+
+        const summary = `Counter Offer:\n- Price: $${newPrice}\n- Close Date: ${date || 'N/A'}\n- Terms: ${terms || 'Standard'}`;
+        alert(`🔄 AI sent the following counter to the buyer:\n\n${summary}`);
+      } else if (action === "negotiate") {
+        const instructions = document.getElementById("ai-instructions").value;
+        if (!instructions.trim()) {
+          alert("Please provide some instructions for the AI.");
+          return;
+        }
+        alert(`🧠 AI is reviewing your goals and will start negotiating on your behalf...\n\nInstructions: ${instructions}`);
+      }
+    }
+  </script>
+</body>
+</html>
+
