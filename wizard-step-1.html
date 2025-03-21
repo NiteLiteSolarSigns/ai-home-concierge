@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tell Us About You</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .step-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 25px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="step-container">
+    <h2>Let’s Get to Know You</h2>
+    <form onsubmit="saveInfo(event)">
+      <label for="cook">Do you like to cook or eat out?</label>
+      <select id="cook" required>
+        <option value="">--Choose--</option>
+        <option value="cook">I love cooking</option>
+        <option value="eatout">Prefer eating out</option>
+        <option value="both">A little of both</option>
+      </select>
+
+      <label for="car">What kind of car do you drive?</label>
+      <input id="car" type="text" placeholder="e.g. 2022 Honda Accord" required />
+
+      <label for="pets">Do you have pets?</label>
+      <select id="pets" required>
+        <option value="">--Choose--</option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
+        <option value="other">Other</option>
+        <option value="none">None</option>
+      </select>
+
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+
+  <script>
+    function saveInfo(e) {
+      e.preventDefault();
+
+      const profile = {
+        cook: document.getElementById("cook").value,
+        car: document.getElementById("car").value,
+        pets: document.getElementById("pets").value
+      };
+
+      localStorage.setItem("homeownerProfile", JSON.stringify(profile));
+      window.location.href = "wizard-step-2.html"; // Next step coming next!
+    }
+  </script>
+</body>
+</html>
+
