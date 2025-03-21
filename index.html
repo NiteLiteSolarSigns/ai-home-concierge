@@ -1,235 +1,256 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Home Concierge</title>
-  <style>
-    :root {
-      --theme-color: #007bff;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 0; margin: 0;
-    }
-    .container {
-      width: 90%; max-width: 800px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    }
-    input, button {
-      padding: 10px;
-      margin-top: 10px;
-      width: 100%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: var(--theme-color);
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-    }
-    th {
-      background: var(--theme-color);
-      color: white;
-    }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.4">
+  <style type="text/css">
+    body {background-color: #f1f1f1}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 14.0px}
+    span.s1 {font-kerning: none}
   </style>
 </head>
 <body>
-  <div id="login" class="container">
-    <h2>Admin Login</h2>
-    <input id="username" type="text" placeholder="Username" />
-    <input id="password" type="password" placeholder="Password" />
-    <button onclick="authenticateUser()">Login</button>
-  </div>
-
-  <div id="dashboard" class="container" style="display: none;">
-    <h2>AI Home Concierge - Admin Dashboard</h2>
-    <button onclick="logoutUser()">Logout</button>
-
-    <h3>📊 User Messages</h3>
-    <table>
-      <thead>
-        <tr><th>Name</th><th>Email</th><th>Message</th><th>Category</th></tr>
-      </thead>
-      <tbody id="messages-table"></tbody>
-    </table>
-
-    <h3>🔍 AI Recommendations</h3>
-    <table>
-      <thead>
-        <tr><th>User</th><th>Suggestion</th><th>Category</th></tr>
-      </thead>
-      <tbody id="recommendations-table"></tbody>
-    </table>
-
-    <h3>⚙️ Branding Customization</h3>
-    <form id="branding-form">
-      <label for="logo">Logo URL:</label>
-      <input type="text" id="logo" name="logo" placeholder="https://example.com/logo.png" required>
-      <br>
-      <label for="color">Color Scheme:</label>
-      <input type="text" id="color" name="color" placeholder="#007bff" required>
-      <br>
-      <label for="tagline">Tagline:</label>
-      <input type="text" id="tagline" name="tagline" placeholder="Welcome to AI Home Concierge" required>
-      <br>
-      <button type="submit" class="button">Update Branding</button>
-    </form>
-
-    <h3>🏡 Thinking of Selling?</h3>
-    <button onclick="submitListingRequest()">📤 List My Home</button>
-  </div>
-
-  <script>
-    function authenticateUser() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          sessionStorage.setItem("authenticated", "true");
-          showDashboard();
-        } else {
-          alert("Invalid login.");
-        }
-      })
-      .catch(() => alert("Login error"));
-    }
-
-    function logoutUser() {
-      sessionStorage.clear();
-      document.getElementById("login").style.display = "block";
-      document.getElementById("dashboard").style.display = "none";
-    }
-
-    function showDashboard() {
-      document.getElementById("login").style.display = "none";
-      document.getElementById("dashboard").style.display = "block";
-      loadMessages();
-      loadRecommendations();
-    }
-
-    function loadMessages() {
-      fetch("/api/admin/messages")
-        .then(res => res.json())
-        .then(data => {
-          const table = document.getElementById("messages-table");
-          table.innerHTML = "";
-          data.forEach(msg => {
-            table.innerHTML += `<tr>
-              <td>${msg.name}</td>
-              <td>${msg.email}</td>
-              <td>${msg.message}</td>
-              <td>${msg.category}</td>
-            </tr>`;
-          });
-        });
-    }
-
-    function loadRecommendations() {
-      fetch("/api/admin/recommendations")
-        .then(res => res.json())
-        .then(data => {
-          const table = document.getElementById("recommendations-table");
-          table.innerHTML = "";
-          data.forEach(rec => {
-            table.innerHTML += `<tr>
-              <td>${rec.user}</td>
-              <td>${rec.suggestion}</td>
-              <td>${rec.category}</td>
-            </tr>`;
-          });
-        });
-    }
-
-    function applyBranding(branding) {
-      if (branding.logo) {
-        document.querySelector("h2").innerHTML = `<img src="${branding.logo}" height="40" /> ${branding.tagline}`;
-      } else {
-        document.querySelector("h2").textContent = branding.tagline || "AI Home Concierge - Admin Dashboard";
-      }
-
-      if (branding.color) {
-        document.body.style.setProperty("--theme-color", branding.color);
-        document.querySelectorAll("th").forEach(th => th.style.background = branding.color);
-      }
-    }
-
-    document.getElementById('branding-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const formData = {
-        logo: document.getElementById('logo').value,
-        color: document.getElementById('color').value,
-        tagline: document.getElementById('tagline').value
-      };
-
-      fetch('/api/admin/update-branding', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData)
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert(data.message);
-        applyBranding(data.branding);
-      });
-    });
-
-    function submitListingRequest() {
-      const confirmed = confirm("Are you sure you want to list your home? A concierge will reach out to begin the process.");
-      if (!confirmed) return;
-
-      fetch("/api/list-home", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          homeowner: "John Doe",
-          address: "123 Main Street",
-          email: "john@example.com",
-          date: new Date().toISOString()
-        })
-      })
-      .then(res => res.json())
-      .then(data => alert(data.message || "Request submitted!"))
-      .catch(() => alert("There was an error. Please try again."));
-    }
-
-    fetch('/api/admin/update-branding')
-      .then(res => res.json())
-      .then(data => {
-        applyBranding(data);
-        document.getElementById('logo').value = data.logo || "";
-        document.getElementById('color').value = data.color || "";
-        document.getElementById('tagline').value = data.tagline || "";
-      });
-
-    window.onload = () => {
-      if (sessionStorage.getItem("authenticated") === "true") {
-        showDashboard();
-      }
-    };
-  </script>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;!DOCTYPE html&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;html lang="en"&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;head&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"/&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;title&gt;AI Home Concierge&lt;/title&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;style&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>:root {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>--theme-color: #007bff;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>body {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>background: #f4f4f4;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>padding: 0; margin: 0;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>.container {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>width: 90%; max-width: 800px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>margin: 50px auto;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>padding: 20px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>background: white;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>border-radius: 8px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>box-shadow: 0px 0px 10px rgba(0,0,0,0.1);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>input, button {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>padding: 10px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>margin-top: 10px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>width: 100%;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>border-radius: 5px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>border: 1px solid #ccc;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>button {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>background: var(--theme-color);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>color: white;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>border: none;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>cursor: pointer;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>table {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>width: 100%;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>margin-top: 20px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>border-collapse: collapse;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>th, td {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>border: 1px solid #ddd;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>padding: 10px;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>th {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>background: var(--theme-color);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>color: white;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/style&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;/head&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;body&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;div id="login" class="container"&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h2&gt;Admin Login&lt;/h2&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;input id="username" type="text" placeholder="Username" /&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;input id="password" type="password" placeholder="Password" /&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;button onclick="authenticateUser()"&gt;Login&lt;/button&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/div&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;div id="dashboard" class="container" style="display: none;"&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h2&gt;AI Home Concierge - Admin Dashboard&lt;/h2&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;button onclick="logoutUser()"&gt;Logout&lt;/button&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h3&gt;📊 User Messages&lt;/h3&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;table&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;thead&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Category&lt;/th&gt;&lt;/tr&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;/thead&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;tbody id="messages-table"&gt;&lt;/tbody&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;/table&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h3&gt;🔍 AI Recommendations&lt;/h3&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;table&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;thead&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>&lt;tr&gt;&lt;th&gt;User&lt;/th&gt;&lt;th&gt;Suggestion&lt;/th&gt;&lt;th&gt;Category&lt;/th&gt;&lt;/tr&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;/thead&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;tbody id="recommendations-table"&gt;&lt;/tbody&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;/table&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h3&gt;⚙️ Branding Customization&lt;/h3&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;form id="branding-form"&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;label for="logo"&gt;Logo URL:&lt;/label&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;input type="text" id="logo" name="logo" placeholder="https://example.com/logo.png" required&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;br&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;label for="color"&gt;Color Scheme:&lt;/label&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;input type="text" id="color" name="color" placeholder="#007bff" required&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;br&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;label for="tagline"&gt;Tagline:&lt;/label&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;input type="text" id="tagline" name="tagline" placeholder="Welcome to AI Home Concierge" required&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;br&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>&lt;button type="submit" class="button"&gt;Update Branding&lt;/button&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;/form&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h3&gt;🏡 Thinking of Selling?&lt;/h3&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;p&gt;&lt;strong&gt;Estimated Value:&lt;/strong&gt; &lt;span id="est-value"&gt;$487,000&lt;/span&gt;&lt;/p&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;button onclick="submitListingRequest()"&gt;📤 List My Home&lt;/button&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/div&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;script&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function authenticateUser() {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>const username = document.getElementById("username").value;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>const password = document.getElementById("password").value;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>fetch("/api/login", {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>method: "POST",</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>headers: { "Content-Type": "application/json" },</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>body: JSON.stringify({ username, password })</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>})</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(res =&gt; res.json())</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(data =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>if (data.success) {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>sessionStorage.setItem("authenticated", "true");</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>showDashboard();</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>} else {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>alert("Invalid login.");</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>})</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.catch(() =&gt; alert("Login error"));</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function logoutUser() {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>sessionStorage.clear();</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>document.getElementById("login").style.display = "block";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>document.getElementById("dashboard").style.display = "none";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function showDashboard() {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>document.getElementById("login").style.display = "none";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>document.getElementById("dashboard").style.display = "block";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>loadMessages();</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>loadRecommendations();</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function loadMessages() {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>fetch("/api/admin/messages")</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>.then(res =&gt; res.json())</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>.then(data =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>const table = document.getElementById("messages-table");</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>table.innerHTML = "";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>data.forEach(msg =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">            </span>table.innerHTML += `&lt;tr&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${msg.name}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${msg.email}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${msg.message}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${msg.category}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;/tr&gt;`;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function loadRecommendations() {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>fetch("/api/admin/recommendations")</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>.then(res =&gt; res.json())</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>.then(data =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>const table = document.getElementById("recommendations-table");</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>table.innerHTML = "";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>data.forEach(rec =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">            </span>table.innerHTML += `&lt;tr&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${rec.user}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${rec.suggestion}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">              </span>&lt;td&gt;${rec.category}&lt;/td&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;/tr&gt;`;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function applyBranding(branding) {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>if (branding.logo) {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.querySelector("h2").innerHTML = `&lt;img src="${branding.logo}" height="40" /&gt; ${branding.tagline}`;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>} else {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.querySelector("h2").textContent = branding.tagline || "AI Home Concierge - Admin Dashboard";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>if (branding.color) {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.body.style.setProperty("--theme-color", branding.color);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.querySelectorAll("th").forEach(th =&gt; th.style.background = branding.color);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>document.getElementById('branding-form').addEventListener('submit', function(event) {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>event.preventDefault();</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>const formData = {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>logo: document.getElementById('logo').value,</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>color: document.getElementById('color').value,</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>tagline: document.getElementById('tagline').value</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>};</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>fetch('/api/admin/update-branding', {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>method: 'POST',</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>headers: {'Content-Type': 'application/json'},</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>body: JSON.stringify(formData)</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>})</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(response =&gt; response.json())</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(data =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>alert(data.message);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>applyBranding(data.branding);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>function submitListingRequest() {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>const confirmed = confirm("Are you sure you want to list your home? A concierge will reach out to begin the process.");</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>if (!confirmed) return;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>const estimatedValue = document.getElementById("est-value").textContent;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>fetch("/api/list-home", {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>method: "POST",</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>headers: { "Content-Type": "application/json" },</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>body: JSON.stringify({</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>homeowner: "John Doe",</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>address: "123 Main Street",</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>email: "john@example.com",</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>estimatedValue,</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">          </span>date: new Date().toISOString()</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>})</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>})</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(res =&gt; res.json())</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(data =&gt; alert(data.message || "Request submitted!"))</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.catch(() =&gt; alert("There was an error. Please try again."));</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>fetch('/api/admin/update-branding')</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(res =&gt; res.json())</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>.then(data =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>applyBranding(data);</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.getElementById('logo').value = data.logo || "";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.getElementById('color').value = data.color || "";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>document.getElementById('tagline').value = data.tagline || "";</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>});</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 21.0px"><span class="s1"><b></b></span><br></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>window.onload = () =&gt; {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>if (sessionStorage.getItem("authenticated") === "true") {</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">        </span>showDashboard();</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">      </span>}</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">    </span>};</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/script&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;/body&gt;</b></span></h2>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Arial; -webkit-text-stroke: #000000; background-color: #ffffff"><span class="s1"><b>&lt;/html&gt;</b></span></h2>
+<p class="p3"><span class="s1"></span><br></p>
 </body>
 </html>
-
