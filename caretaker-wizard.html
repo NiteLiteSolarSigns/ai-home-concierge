@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome to Your AI Caretaker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .wizard-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+    h1 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.1em;
+      color: #444;
+    }
+    .caretaker-character {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1em;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="wizard-container">
+    <div class="caretaker-character">🤖</div>
+    <h1>Hi, I'm HomeBot!</h1>
+    <p>I'm your personal AI caretaker. Together, we’ll make this house run like a dream. 🏡</p>
+    <p>Let’s get to know you — and your new home — in just a few quick steps.</p>
+    <button onclick="next()">Let’s Go</button>
+  </div>
+
+  <script>
+    function next() {
+      window.location.href = "wizard-step-1.html";
+    }
+  </script>
+</body>
+</html>
+
