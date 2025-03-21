@@ -1,12 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Caretaker Wizard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f7fa;
+      padding: 0;
+      margin: 0;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .wizard-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .back-button {
+      background-color: #6c757d;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>🧙‍♂️ Caretaker Wizard Page</h1>
-  <p>This is where you’ll set up your digital home assistant.</p>
+  <header>
+    <h1>🧙 Caretaker Wizard Setup</h1>
+    <p>Customize your property's digital assistant</p>
+  </header>
+
+  <div class="wizard-container">
+    <form id="wizardForm">
+      <h2>Step 1: Welcome Message</h2>
+      <label for="welcome">What would you like your new homeowner to see?</label>
+      <textarea id="welcome" name="welcome" rows="3" placeholder="Welcome to your new home!"></textarea>
+
+      <h2>Step 2: Brand Settings</h2>
+      <label for="tagline">Tagline</label>
+      <input type="text" id="tagline" name="tagline" placeholder="e.g., Your Property. Your Network." />
+
+      <label for="color">Primary Color (Hex)</label>
+      <input type="text" id="color" name="color" placeholder="#007bff" />
+
+      <label for="logo">Logo URL</label>
+      <input type="text" id="logo" name="logo" placeholder="https://example.com/logo.png" />
+
+      <button type="submit">Save & Continue</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("wizardForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const data = {
+        welcome: document.getElementById("welcome").value,
+        tagline: document.getElementById("tagline").value,
+        color: document.getElementById("color").value,
+        logo: document.getElementById("logo").value
+      };
+
+      console.log("Saving Wizard Data:", data);
+      alert("Caretaker preferences saved! (Mock submission)");
+      window.location.href = "/dashboard.html";
+    });
+  </script>
 </body>
 </html>
-
