@@ -73,6 +73,20 @@
       </thead>
       <tbody id="recommendations-table"></tbody>
     </table>
+
+    <h3>⚙️ Branding Customization</h3>
+    <form id="branding-form">
+      <label for="logo">Logo URL:</label>
+      <input type="text" id="logo" name="logo" placeholder="https://example.com/logo.png" required>
+      <br>
+      <label for="color">Color Scheme:</label>
+      <input type="text" id="color" name="color" placeholder="#007bff" required>
+      <br>
+      <label for="tagline">Tagline:</label>
+      <input type="text" id="tagline" name="tagline" placeholder="Welcome to AI Home Concierge" required>
+      <br>
+      <button type="submit" class="button">Update Branding</button>
+    </form>
   </div>
 
   <script>
@@ -143,47 +157,47 @@
         });
     }
 
-function applyBranding(branding) {
-  if (branding.logo) {
-    document.querySelector("h2").innerHTML = `<img src="${branding.logo}" height="40" /> ${branding.tagline}`;
-  } else {
-    document.querySelector("h2").textContent = branding.tagline || "AI Home Concierge - Admin Dashboard";
-  }
+    function applyBranding(branding) {
+      if (branding.logo) {
+        document.querySelector("h2").innerHTML = `<img src="${branding.logo}" height="40" /> ${branding.tagline}`;
+      } else {
+        document.querySelector("h2").textContent = branding.tagline || "AI Home Concierge - Admin Dashboard";
+      }
 
-  if (branding.color) {
-    document.body.style.setProperty("--theme-color", branding.color);
-    document.querySelectorAll("th").forEach(th => th.style.background = branding.color);
-  }
-}
-document.getElementById('branding-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const formData = {
-    logo: document.getElementById('logo').value,
-    color: document.getElementById('color').value,
-    tagline: document.getElementById('tagline').value
-  };
+      if (branding.color) {
+        document.body.style.setProperty("--theme-color", branding.color);
+        document.querySelectorAll("th").forEach(th => th.style.background = branding.color);
+      }
+    }
 
-  fetch('/api/admin/update-branding', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(formData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    alert(data.message);
-    applyBranding(data.branding);
-  });
-});
-fetch('/api/admin/update-branding')
-  .then(res => res.json())
-  .then(data => {
-    applyBranding(data);
-    document.getElementById('logo').value = data.logo || "";
-    document.getElementById('color').value = data.color || "";
-    document.getElementById('tagline').value = data.tagline || "";
-  });
+    document.getElementById('branding-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = {
+        logo: document.getElementById('logo').value,
+        color: document.getElementById('color').value,
+        tagline: document.getElementById('tagline').value
+      };
 
+      fetch('/api/admin/update-branding', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        applyBranding(data.branding);
+      });
+    });
 
+    fetch('/api/admin/update-branding')
+      .then(res => res.json())
+      .then(data => {
+        applyBranding(data);
+        document.getElementById('logo').value = data.logo || "";
+        document.getElementById('color').value = data.color || "";
+        document.getElementById('tagline').value = data.tagline || "";
+      });
 
     window.onload = () => {
       if (sessionStorage.getItem("authenticated") === "true") {
