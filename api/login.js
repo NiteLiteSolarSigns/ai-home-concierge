@@ -1,13 +1,22 @@
-// File: /api/login.js
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { username, password } = req.body;
+  // Manually parse the body
+  let body = req.body;
 
-  // Replace these with environment variables for security
+  // On Vercel, if body is a string, parse it as JSON
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      return res.status(400).json({ success: false, message: "Invalid JSON" });
+    }
+  }
+
+  const { username, password } = body;
+
   const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "password123";
 
@@ -17,3 +26,4 @@ export default function handler(req, res) {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
   }
 }
+
