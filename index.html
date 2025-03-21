@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Home Concierge</title>
   <style>
+    :root {
+      --theme-color: #007bff;
+    }
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
@@ -26,7 +29,7 @@
       border: 1px solid #ccc;
     }
     button {
-      background: #007bff;
+      background: var(--theme-color);
       color: white;
       border: none;
       cursor: pointer;
@@ -41,7 +44,7 @@
       padding: 10px;
     }
     th {
-      background: #007bff;
+      background: var(--theme-color);
       color: white;
     }
   </style>
@@ -87,6 +90,9 @@
       <br>
       <button type="submit" class="button">Update Branding</button>
     </form>
+
+    <h3>🏡 Thinking of Selling?</h3>
+    <button onclick="submitListingRequest()">📤 List My Home</button>
   </div>
 
   <script>
@@ -190,6 +196,25 @@
       });
     });
 
+    function submitListingRequest() {
+      const confirmed = confirm("Are you sure you want to list your home? A concierge will reach out to begin the process.");
+      if (!confirmed) return;
+
+      fetch("/api/list-home", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          homeowner: "John Doe",
+          address: "123 Main Street",
+          email: "john@example.com",
+          date: new Date().toISOString()
+        })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message || "Request submitted!"))
+      .catch(() => alert("There was an error. Please try again."));
+    }
+
     fetch('/api/admin/update-branding')
       .then(res => res.json())
       .then(data => {
@@ -207,3 +232,4 @@
   </script>
 </body>
 </html>
+
