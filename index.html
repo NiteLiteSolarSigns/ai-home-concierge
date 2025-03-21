@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Home Concierge - Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .dashboard-table th, .dashboard-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .dashboard-table th {
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">AI Home Concierge - Admin Dashboard</div>
+        
+        <div class="section">
+            <h2>📊 User Messages</h2>
+            <table class="dashboard-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Category</th>
+                </tr>
+                <tbody id="messages-table">
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 AI Recommendations</h2>
+            <table class="dashboard-table">
+                <tr>
+                    <th>User</th>
+                    <th>Recommendation</th>
+                    <th>Category</th>
+                </tr>
+                <tbody id="recommendations-table">
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Branding Customization</h2>
+            <form id="branding-form">
+                <label for="logo">Logo URL:</label>
+                <input type="text" id="logo" name="logo" required>
+                <br>
+                <label for="color">Color Scheme:</label>
+                <input type="text" id="color" name="color" required>
+                <br>
+                <label for="tagline">Tagline:</label>
+                <input type="text" id="tagline" name="tagline" required>
+                <br>
+                <button type="submit" class="button">Update Branding</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Fetch and display messages
+        function loadMessages() {
+            fetch('/admin/messages')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('messages-table');
+                    table.innerHTML = '';
+                    data.forEach(msg => {
+                        let row = `<tr>
+                            <td>${msg.name}</td>
+                            <td>${msg.email}</td>
+                            <td>${msg.message}</td>
+                            <td>${msg.category}</td>
+                        </tr>`;
+                        table.innerHTML += row;
+                    });
+                });
+        }
+        
+        // Fetch and display recommendations
+        function loadRecommendations() {
+            fetch('/admin/recommendations')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('recommendations-table');
+                    table.innerHTML = '';
+                    data.forEach(rec => {
+                        let row = `<tr>
+                            <td>${rec.user}</td>
+                            <td>${rec.suggestion}</td>
+                            <td>${rec.category}</td>
+                        </tr>`;
+                        table.innerHTML += row;
+                    });
+                });
+        }
+        
+        // Handle branding customization form submission
+        document.getElementById('branding-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = {
+                logo: document.getElementById('logo').value,
+                color: document.getElementById('color').value,
+                tagline: document.getElementById('tagline').value
+            };
+            
+            fetch('/admin/update-branding', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message));
+        });
+        
+        // Load data when the page loads
+        window.onload = function() {
+            loadMessages();
+            loadRecommendations();
+        };
+    </script>
+</body>
+</html>
