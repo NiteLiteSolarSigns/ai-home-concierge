@@ -15,6 +15,19 @@
       color: white;
       padding: 20px;
       text-align: center;
+      position: relative;
+    }
+    header a.home-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 5px;
     }
     .container {
       max-width: 1000px;
@@ -53,6 +66,7 @@
 </head>
 <body>
   <header>
+    <a class="home-link" href="/dashboard.html">← Home</a>
     <h1>🏠 Homeboard</h1>
     <p>Your Property's DNA & Preferred Providers</p>
   </header>
@@ -94,3 +108,4 @@
   </div>
 </body>
 </html>
+
