@@ -4,12 +4,234 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Home Concierge</title>
+  <style>
+    :root {
+      --theme-color: #007bff;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: var(--theme-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    th {
+      background: var(--theme-color);
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <h2>Admin Login</h2>
-  <input id="username" type="text" placeholder="Username" />
-  <input id="password" type="password" placeholder="Password" />
-  <button onclick="alert('Login clicked!')">Login</button>
+  <div id="login" class="container">
+    <h2>Admin Login</h2>
+    <input id="username" type="text" placeholder="Username" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="authenticateUser()">Login</button>
+  </div>
+
+  <div id="dashboard" class="container" style="display: none;">
+    <h2>AI Home Concierge - Admin Dashboard</h2>
+    <button onclick="logoutUser()">Logout</button>
+
+    <h3>📊 User Messages</h3>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Message</th><th>Category</th></tr>
+      </thead>
+      <tbody id="messages-table"></tbody>
+    </table>
+
+    <h3>🔍 AI Recommendations</h3>
+    <table>
+      <thead>
+        <tr><th>User</th><th>Suggestion</th><th>Category</th></tr>
+      </thead>
+      <tbody id="recommendations-table"></tbody>
+    </table>
+
+    <h3>⚙️ Branding Customization</h3>
+    <form id="branding-form">
+      <label for="logo">Logo URL:</label>
+      <input type="text" id="logo" name="logo" placeholder="https://example.com/logo.png" required>
+      <label for="color">Color Scheme:</label>
+      <input type="text" id="color" name="color" placeholder="#007bff" required>
+      <label for="tagline">Tagline:</label>
+      <input type="text" id="tagline" name="tagline" placeholder="Welcome to AI Home Concierge" required>
+      <button type="submit">Update Branding</button>
+    </form>
+
+    <h3>🏡 Thinking of Selling?</h3>
+    <p><strong>Estimated Value:</strong> <span id="est-value">$487,000</span></p>
+    <button onclick="submitListingRequest()">📤 List My Home</button>
+  </div>
+
+  <script>
+    function authenticateUser() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          sessionStorage.setItem("authenticated", "true");
+          showDashboard();
+        } else {
+          alert("Invalid login.");
+        }
+      })
+      .catch(() => alert("Login error"));
+    }
+
+    function logoutUser() {
+      sessionStorage.clear();
+      document.getElementById("login").style.display = "block";
+      document.getElementById("dashboard").style.display = "none";
+    }
+
+    function showDashboard() {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      loadMessages();
+      loadRecommendations();
+    }
+
+    function loadMessages() {
+      fetch("/api/admin/messages")
+        .then(res => res.json())
+        .then(data => {
+          const table = document.getElementById("messages-table");
+          table.innerHTML = "";
+          data.forEach(msg => {
+            table.innerHTML += `<tr>
+              <td>${msg.name}</td>
+              <td>${msg.email}</td>
+              <td>${msg.message}</td>
+              <td>${msg.category}</td>
+            </tr>`;
+          });
+        });
+    }
+
+    function loadRecommendations() {
+      fetch("/api/admin/recommendations")
+        .then(res => res.json())
+        .then(data => {
+          const table = document.getElementById("recommendations-table");
+          table.innerHTML = "";
+          data.forEach(rec => {
+            table.innerHTML += `<tr>
+              <td>${rec.user}</td>
+              <td>${rec.suggestion}</td>
+              <td>${rec.category}</td>
+            </tr>`;
+          });
+        });
+    }
+
+    function applyBranding(branding) {
+      if (branding.logo) {
+        document.querySelector("h2").innerHTML = `<img src="${branding.logo}" height="40" /> ${branding.tagline}`;
+      } else {
+        document.querySelector("h2").textContent = branding.tagline || "AI Home Concierge - Admin Dashboard";
+      }
+
+      if (branding.color) {
+        document.body.style.setProperty("--theme-color", branding.color);
+        document.querySelectorAll("th").forEach(th => th.style.background = branding.color);
+      }
+    }
+
+    document.getElementById('branding-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = {
+        logo: document.getElementById('logo').value,
+        color: document.getElementById('color').value,
+        tagline: document.getElementById('tagline').value
+      };
+
+      fetch('/api/admin/update-branding', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        applyBranding(data.branding);
+      });
+    });
+
+    function submitListingRequest() {
+      const confirmed = confirm("Are you sure you want to list your home? A concierge will reach out to begin the process.");
+      if (!confirmed) return;
+
+      const estimatedValue = document.getElementById("est-value").textContent;
+
+      fetch("/api/list-home", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          homeowner: "John Doe",
+          address: "123 Main Street",
+          email: "john@example.com",
+          estimatedValue,
+          date: new Date().toISOString()
+        })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message || "Request submitted!"))
+      .catch(() => alert("There was an error. Please try again."));
+    }
+
+    fetch('/api/admin/update-branding')
+      .then(res => res.json())
+      .then(data => {
+        applyBranding(data);
+        document.getElementById('logo').value = data.logo || "";
+        document.getElementById('color').value = data.color || "";
+        document.getElementById('tagline').value = data.tagline || "";
+      });
+
+    window.onload = () => {
+      if (sessionStorage.getItem("authenticated") === "true") {
+        showDashboard();
+      }
+    };
+  </script>
 </body>
 </html>
-
