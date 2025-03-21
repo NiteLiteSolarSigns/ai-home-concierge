@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Branding Customization - AI Home Concierge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f7;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #6f42c1;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    header a.home-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #6f42c1;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #6f42c1;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5936a7;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="home-link" href="/dashboard.html">← Home</a>
+    <h1>🎨 Branding Customization</h1>
+    <p>Personalize your concierge's appearance and tone</p>
+  </header>
+  <main>
+    <h2>Update Branding</h2>
+    <form onsubmit="event.preventDefault(); alert('Branding updated!');">
+      <label for="logo">Logo URL</label>
+      <input type="url" id="logo" name="logo" placeholder="https://example.com/logo.png">
+
+      <label for="color">Preferred Color Scheme</label>
+      <input type="text" id="color" name="color" placeholder="#007bff">
+
+      <label for="tagline">Tagline</label>
+      <input type="text" id="tagline" name="tagline" placeholder="Your home’s digital concierge">
+
+      <label for="tone">Tone of Voice</label>
+      <input type="text" id="tone" name="tone" placeholder="Friendly, professional, casual, etc.">
+
+      <button type="submit">Save Branding</button>
+    </form>
+  </main>
+</body>
+</html>
+
