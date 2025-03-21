@@ -11,12 +11,10 @@
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
-      padding: 0;
-      margin: 0;
+      padding: 0; margin: 0;
     }
     .container {
-      width: 90%;
-      max-width: 800px;
+      width: 90%; max-width: 800px;
       margin: 50px auto;
       padding: 20px;
       background: white;
@@ -94,34 +92,12 @@
     <p><strong>Estimated Value:</strong> <span id="est-value">$487,000</span></p>
     <button onclick="submitListingRequest()">📤 List My Home</button>
 
-<h3>💰 Refinance My Home</h3>
-<p>Current Rate: <strong><span id="current-rate">6.75%</span></strong></p>
-<p>Today's Rate: <strong><span id="todays-rate">5.99%</span></strong></p>
-<p>Estimated Monthly Savings: <strong><span id="savings">$212</span></strong></p>
-<button onclick="requestRefinance()">🔁 Get a Free Refi Analysis</button>
+    <h3>💰 Refinance My Home</h3>
+    <p>Current Rate: <strong><span id="current-rate">6.75%</span></strong></p>
+    <p>Today's Rate: <strong><span id="todays-rate">5.99%</span></strong></p>
+    <p>Estimated Monthly Savings: <strong><span id="savings">$212</span></strong></p>
+    <button onclick="requestRefinance()">🔁 Get a Free Refi Analysis</button>
   </div>
-
-function requestRefinance() {
-  const confirmed = confirm("We’ll notify your loan officer and get started on your refi quote. Ready?");
-  if (!confirmed) return;
-
-  fetch("/api/request-refi", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      homeowner: "John Doe",
-      address: "123 Main Street",
-      email: "john@example.com",
-      currentRate: "6.75%",
-      newRate: "5.99%",
-      estimatedSavings: "$212",
-      date: new Date().toISOString()
-    })
-  })
-  .then(res => res.json())
-  .then(data => alert(data.message || "Refi request sent!"))
-  .catch(() => alert("There was an error. Please try again."));
-}
 
   <script>
     function authenticateUser() {
@@ -243,6 +219,28 @@ function requestRefinance() {
       })
       .then(res => res.json())
       .then(data => alert(data.message || "Request submitted!"))
+      .catch(() => alert("There was an error. Please try again."));
+    }
+
+    function requestRefinance() {
+      const confirmed = confirm("We’ll notify your loan officer and get started on your refi quote. Ready?");
+      if (!confirmed) return;
+
+      fetch("/api/request-refi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          homeowner: "John Doe",
+          address: "123 Main Street",
+          email: "john@example.com",
+          currentRate: "6.75%",
+          newRate: "5.99%",
+          estimatedSavings: "$212",
+          date: new Date().toISOString()
+        })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message || "Refi request sent!"))
       .catch(() => alert("There was an error. Please try again."));
     }
 
