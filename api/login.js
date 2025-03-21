@@ -3,10 +3,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  // Manually parse the body
   let body = req.body;
 
-  // On Vercel, if body is a string, parse it as JSON
   if (typeof body === 'string') {
     try {
       body = JSON.parse(body);
@@ -26,4 +24,3 @@ export default async function handler(req, res) {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
   }
 }
-
