@@ -1,95 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Branding Customization - AI Home Concierge</title>
+  <meta charset="UTF-8" />
+  <title>Branding - AI Home Concierge</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f2f4f7;
+      background-color: #f9fafb;
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: #6f42c1;
-      color: white;
-      padding: 20px;
+
+    .site-header {
+      background-color: #007bff;
+      padding: 10px 20px;
       text-align: center;
-      position: relative;
     }
-    header a.home-link {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
+
+    .site-header a {
       color: white;
       text-decoration: none;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 6px 12px;
-      border-radius: 5px;
+      margin: 0 12px;
+      font-size: 1.05em;
     }
+
+    .site-header a:hover {
+      text-decoration: underline;
+    }
+
     main {
-      max-width: 800px;
+      max-width: 600px;
       margin: 30px auto;
       background: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    h2 {
-      color: #6f42c1;
-      margin-bottom: 20px;
+
+    h1 {
+      color: #333;
+      text-align: center;
     }
+
     label {
       display: block;
-      margin-top: 20px;
-      font-weight: bold;
+      margin-bottom: 10px;
+      color: #555;
     }
-    input {
+
+    input[type="text"] {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
+      margin-bottom: 20px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+
     button {
-      margin-top: 30px;
       padding: 10px 20px;
-      background-color: #6f42c1;
+      background-color: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
-      background-color: #5936a7;
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <header>
-    <a class="home-link" href="/dashboard.html">← Home</a>
-    <h1>🎨 Branding Customization</h1>
-    <p>Personalize your concierge's appearance and tone</p>
-  </header>
-  <main>
-    <h2>Update Branding</h2>
-    <form onsubmit="event.preventDefault(); alert('Branding updated!');">
-      <label for="logo">Logo URL</label>
-      <input type="url" id="logo" name="logo" placeholder="https://example.com/logo.png">
+  <nav class="site-header">
+    <a href="/dashboard.html">🏠 Dashboard</a>
+    <a href="/caretaker-wizard.html">🧠 Caretaker</a>
+    <a href="/homeboard.html">🏡 HomeBoard</a>
+    <a href="/branding.html">🎨 Branding</a>
+    <a href="/refinance.html">💸 Refinance</a>
+    <a href="/offer-negotiator.html">🤝 Offers</a>
+  </nav>
 
-      <label for="color">Preferred Color Scheme</label>
+  <main>
+    <h1>Customize Your Property Branding</h1>
+    <form id="brandingForm">
+      <label for="logo">Logo URL:</label>
+      <input type="text" id="logo" name="logo">
+
+      <label for="color">Primary Color (Hex):</label>
       <input type="text" id="color" name="color" placeholder="#007bff">
 
-      <label for="tagline">Tagline</label>
-      <input type="text" id="tagline" name="tagline" placeholder="Your home’s digital concierge">
+      <label for="tagline">Tagline:</label>
+      <input type="text" id="tagline" name="tagline">
 
-      <label for="tone">Tone of Voice</label>
-      <input type="text" id="tone" name="tone" placeholder="Friendly, professional, casual, etc.">
-
-      <button type="submit">Save Branding</button>
+      <button type="submit">Update Branding</button>
     </form>
   </main>
+
+  <script>
+    document.getElementById("brandingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = {
+        logo: document.getElementById("logo").value,
+        color: document.getElementById("color").value,
+        tagline: document.getElementById("tagline").value,
+      };
+
+      fetch("/api/admin/update-branding.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+      .then(res => res.json())
+      .then(res => alert("Branding updated successfully!"))
+      .catch(err => alert("There was an error saving your changes."));
+    });
+  </script>
 </body>
 </html>
-
