@@ -3,51 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Service Provider Reviews</title>
+  <title>Provider Reviews</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
-    h1 { color: #333; }
-    .review-card {
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f4f4f4;
+      color: #333;
     }
-    .review-card strong { color: #222; }
-    .home-link {
+    h1 {
+      color: #2c3e50;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    a {
       display: inline-block;
-      margin-bottom: 20px;
+      margin-top: 20px;
       text-decoration: none;
-      color: #0055cc;
+      color: #3498db;
+    }
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <a href="dashboard.html" class="home-link">← Back to Dashboard</a>
-  <h1>Recent Reviews</h1>
-  <div id="reviews-container">Loading reviews...</div>
+  <h1>Recent Provider Reviews</h1>
+  <ul id="reviewsList">
+    <li>Loading reviews...</li>
+  </ul>
+  <a href="dashboard.html">← Back to Dashboard</a>
 
   <script>
-    fetch('/api/reviews/list')
+    fetch('/api/reviews')
       .then(res => res.json())
-      .then(reviews => {
-        const container = document.getElementById('reviews-container');
-        container.innerHTML = "";
-        reviews.forEach(r => {
-          const div = document.createElement('div');
-          div.className = "review-card";
-          div.innerHTML = `
-            <strong>${r.provider}</strong><br/>
-            Rating: ${"⭐".repeat(r.rating)}<br/>
-            "${r.review}"<br/>
-            – <em>${r.reviewer}</em>
+      .then(data => {
+        const list = document.getElementById('reviewsList');
+        list.innerHTML = ''; // Clear "Loading" message
+        data.forEach(review => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <strong>${review.provider}</strong><br/>
+            "${review.review}"<br/>
+            – <em>${review.reviewer}</em> (${review.rating}⭐)
           `;
-          container.appendChild(div);
+          list.appendChild(li);
         });
       })
-      .catch(() => {
-        document.getElementById('reviews-container').innerText = "Unable to load reviews.";
+      .catch(error => {
+        document.getElementById('reviewsList').innerHTML = '<li>Unable to load reviews.</li>';
+        console.error(error);
       });
   </script>
 </body>
