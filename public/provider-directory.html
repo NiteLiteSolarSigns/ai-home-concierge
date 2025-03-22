@@ -2,87 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Provider Directory</title>
   <style>
     body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      margin: 2rem;
       background-color: #f9f9f9;
     }
     h1 {
       text-align: center;
+      color: #333;
     }
     .provider {
-      background: white;
-      padding: 15px;
+      background: #fff;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
+      margin: 1rem 0;
+      padding: 1rem;
     }
-    .provider img {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      margin-right: 15px;
+    .provider h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
     }
-    .provider-info {
-      flex: 1;
-    }
-    .rating {
-      color: #ffaa00;
-    }
-    .home-btn {
-      display: block;
-      text-align: center;
-      margin-top: 30px;
-    }
-    .home-btn a {
-      background-color: #333;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 6px;
+    .provider p {
+      margin: 0.25rem 0;
     }
   </style>
 </head>
 <body>
-  <h1>Provider Directory</h1>
-  <div id="directory"></div>
-  <div class="home-btn">
-    <a href="dashboard.html">Return to Dashboard</a>
-  </div>
+  <h1>Service Provider Directory</h1>
+  <div id="provider-list">Loading providers...</div>
 
   <script>
-    const directory = document.getElementById('directory');
-
     fetch('/api/providers/list')
       .then(res => res.json())
-      .then(data => {
-        data.forEach(provider => {
-          const el = document.createElement('div');
-          el.className = 'provider';
-          el.innerHTML = `
-            <img src="${provider.logo || 'https://via.placeholder.com/64'}" alt="Logo" />
-            <div class="provider-info">
-              <h3>${provider.name}</h3>
-              <p>${provider.summary}</p>
-              <p><strong>Distance:</strong> ${provider.distance} miles</p>
-              <p class="rating">Rating: ${'⭐️'.repeat(provider.rating)}</p>
-              <p><em>Referred by: ${provider.referredBy}</em></p>
-            </div>
+      .then(providers => {
+        const list = document.getElementById('provider-list');
+        list.innerHTML = '';
+        providers.forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'provider';
+          div.innerHTML = `
+            <h2>${p.name}</h2>
+            <p><strong>Industry:</strong> ${p.industry}</p>
+            <p><strong>Contact:</strong> ${p.contact}</p>
+            <p><strong>Location:</strong> ${p.location}</p>
+            <p><strong>Summary:</strong> ${p.summary}</p>
+            <p><strong>Rating:</strong> ${p.rating} ⭐️</p>
           `;
-          directory.appendChild(el);
+          list.appendChild(div);
         });
       })
       .catch(err => {
-        directory.innerHTML = '<p>Unable to load providers.</p>';
+        document.getElementById('provider-list').innerHTML = 'Failed to load providers.';
         console.error(err);
       });
   </script>
 </body>
 </html>
-
