@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Refinance Options - AI Home Concierge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #17a2b8;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    header a.home-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h2 {
+      color: #17a2b8;
+    }
+    .rate-comparison {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .rate-box {
+      flex: 1;
+      background: #e2f1f4;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .rate-box h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #17a2b8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #138496;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="home-link" href="/dashboard.html">← Home</a>
+    <h1>💰 Refinance Options</h1>
+    <p>Explore your current equity and rate opportunities</p>
+  </header>
+  <main>
+    <h2>Compare Refinance Rates</h2>
+    <div class="rate-comparison">
+      <div class="rate-box">
+        <h3>Current Mortgage</h3>
+        <p>4.75% APR</p>
+        <p>$2,200/month</p>
+      </div>
+      <div class="rate-box">
+        <h3>Best Available</h3>
+        <p>3.95% APR</p>
+        <p>$2,000/month</p>
+      </div>
+    </div>
+
+    <button onclick="alert('A loan officer will contact you shortly.')">📞 Request Refinance Quote</button>
+  </main>
+</body>
+</html>
+

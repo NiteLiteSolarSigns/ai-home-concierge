@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Caretaker Wizard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-header {
+      background-color: #007bff;
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    .site-header a {
+      color: white;
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 1.05em;
+    }
+
+    .site-header a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-header">
+    <a href="/dashboard.html">🏠 Dashboard</a>
+    <a href="/caretaker-wizard.html">🧠 Caretaker</a>
+    <a href="/homeboard.html">🏡 HomeBoard</a>
+    <a href="/branding.html">🎨 Branding</a>
+    <a href="/refinance.html">💸 Refinance</a>
+    <a href="/offer-negotiator.html">🤝 Offers</a>
+  </nav>
+
+  <main>
+    <h1>Get to Know Your Property</h1>
+
+    <label for="cook">Do you cook often or eat out?</label>
+    <select id="cook">
+      <option value="often">I love to cook</option>
+      <option value="sometimes">Sometimes I cook</option>
+      <option value="never">I eat out mostly</option>
+    </select>
+
+    <label for="car">Tell us about your car:</label>
+    <select id="car">
+      <option value="new">New</option>
+      <option value="used">Used</option>
+      <option value="classic">Classic</option>
+    </select>
+
+    <label for="pets">Do you have pets?</label>
+    <select id="pets">
+      <option value="none">No pets</option>
+      <option value="dog">Dog</option>
+      <option value="cat">Cat</option>
+      <option value="other">Other</option>
+    </select>
+
+    <button onclick="submitCaretakerInfo()">Save Preferences</button>
+  </main>
+
+  <script>
+    function submitCaretakerInfo() {
+      const data = {
+        cook: document.getElementById('cook').value,
+        car: document.getElementById('car').value,
+        pets: document.getElementById('pets').value
+      };
+      console.log("Caretaker preferences saved:", data);
+      alert("Preferences saved! Your digital caretaker is ready.");
+    }
+  </script>
+</body>
+</html>

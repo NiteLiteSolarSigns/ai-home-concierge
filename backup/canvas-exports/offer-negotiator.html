@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Offer Negotiator - AI Home Concierge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #dc3545;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    header a.home-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #dc3545;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #ffc107;
+      color: black;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+    button {
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="home-link" href="/dashboard.html">← Home</a>
+    <h1>📨 Offer Negotiator</h1>
+    <p>Manage active and past offers for this property</p>
+  </header>
+  <main>
+    <h2>Active Offers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Buyer</th>
+          <th>Offer Amount</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jane Buyer</td>
+          <td>$450,000</td>
+          <td><span class="status-badge">Pending</span></td>
+          <td><button>Counter</button> <button style="background:#dc3545;">Decline</button></td>
+        </tr>
+        <tr>
+          <td>Tom Investor</td>
+          <td>$440,000</td>
+          <td><span class="status-badge">Pending</span></td>
+          <td><button>Counter</button> <button style="background:#dc3545;">Decline</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
+

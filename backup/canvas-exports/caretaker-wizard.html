@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Caretaker Wizard - AI Home Concierge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #6c63ff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    header a.home-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #6c63ff;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #574fd6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="home-link" href="/dashboard.html">← Home</a>
+    <h1>🧙 Caretaker Wizard</h1>
+    <p>Let’s personalize your home experience</p>
+  </header>
+  <main>
+    <h2>Tell us about your home</h2>
+    <form>
+      <label for="cooking">Do you like to cook or eat out?</label>
+      <select id="cooking">
+        <option>Cook</option>
+        <option>Eat Out</option>
+        <option>Both</option>
+      </select>
+
+      <label for="car">Do you drive a new or used car?</label>
+      <select id="car">
+        <option>New</option>
+        <option>Used</option>
+        <option>No Car</option>
+      </select>
+
+      <label for="pets">Do you have pets?</label>
+      <select id="pets">
+        <option>Dog</option>
+        <option>Cat</option>
+        <option>Both</option>
+        <option>None</option>
+      </select>
+
+      <label for="custom">Anything else we should know?</label>
+      <input type="text" id="custom" placeholder="I love composting, gardening, etc." />
+
+      <button type="submit">Save Preferences</button>
+    </form>
+  </main>
+</body>
+</html>
+
