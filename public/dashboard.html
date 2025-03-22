@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Home Concierge - Admin Dashboard</title>
+  <title>Dashboard</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,140 +11,45 @@
       padding: 0;
     }
     nav {
-      background-color: #333;
-      padding: 1em;
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
     }
     nav a {
-      color: white;
+      margin-right: 10px;
       text-decoration: none;
-      margin-right: 1em;
+      color: #333;
+      font-weight: bold;
     }
     nav a:hover {
       text-decoration: underline;
     }
     .container {
-      padding: 2em;
-    }
-    h2 {
-      margin-top: 2em;
-    }
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 6px;
-      margin-bottom: 1em;
-    }
-    button {
-      padding: 10px 15px;
+      padding: 20px;
     }
   </style>
 </head>
 <body>
-
-<nav style="position: sticky; top: 0; background-color: #f8f9fa; padding: 1rem; z-index: 1000; border-bottom: 1px solid #ddd;">
-  <a href="/dashboard.html" style="margin-right: 1rem;">Dashboard</a>
-  <a href="/branding.html" style="margin-right: 1rem;">Branding</a>
-  <a href="/homeboard.html" style="margin-right: 1rem;">Homeboard</a>
-  <a href="/caretaker-wizard.html" style="margin-right: 1rem;">Caretaker Wizard</a>
-  <a href="/provider-directory.html" style="margin-right: 1rem;">Provider Directory</a>
-  <a href="/join-network.html" style="margin-right: 1rem;">Join Network</a>
-  <a href="/reviews.html" style="margin-right: 1rem;">Reviews</a>
-  <a href="/refinance.html" style="margin-right: 1rem;">Refinance</a>
-  <a href="/offer-negotiator.html" style="margin-right: 1rem;">Offer Negotiator</a>
-  <button onclick="logout()" style="float: right;">Logout</button>
-<nav>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
     <a href="homeboard.html">Homeboard</a>
-    <a href="refinance.html">Refinance</a>
-    <a href="branding.html">Branding</a>
     <a href="caretaker-wizard.html">Caretaker Wizard</a>
-    <a href="offer-negotiator.html">Offer Negotiator</a>
+    <a href="provider-directory.html">Providers</a>
     <a href="join-network.html">Join Network</a>
-    <a href="provider-directory.html">Provider Directory</a>
     <a href="reviews.html">Reviews</a>
-    <a href="#" onclick="logout()">Logout</a>
+    <a href="branding.html">Branding</a>
+    <a href="refinance.html">Refinance</a>
+    <a href="offer-negotiator.html">Offers</a>
+    <a href="index.html" onclick="sessionStorage.removeItem('authenticated');">Logout</a>
   </nav>
+
   <div class="container">
-    <h1>AI Home Concierge - Admin Dashboard</h1>
-
-    <h2>📊 User Messages</h2>
-    <table id="messagesTable">
-      <thead>
-        <tr><th>Name</th><th>Email</th><th>Message</th><th>Category</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <h2>🔍 AI Recommendations</h2>
-    <table id="recommendationsTable">
-      <thead>
-        <tr><th>User</th><th>Suggestion</th><th>Category</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <h2>⚙️ Branding Customization</h2>
-    <form id="brandingForm">
-      <label>Logo URL:</label><br />
-      <input type="text" name="logo" /><br />
-      <label>Color Scheme:</label><br />
-      <input type="text" name="color" /><br />
-      <label>Tagline:</label><br />
-      <input type="text" name="tagline" /><br />
-      <button type="submit">Update Branding</button>
-    </form>
+    <h1>Welcome to the AI Home Concierge Dashboard</h1>
+    <p>This is your central hub to access all features and tools for managing your smart property system.</p>
   </div>
-  <script>
-    async function fetchData(endpoint, tableId) {
-      try {
-        const res = await fetch(endpoint);
-        const data = await res.json();
-        const table = document.getElementById(tableId).querySelector('tbody');
-        table.innerHTML = "";
-        data.forEach(row => {
-          const tr = document.createElement("tr");
-          Object.values(row).forEach(val => {
-            const td = document.createElement("td");
-            td.textContent = val;
-            tr.appendChild(td);
-          });
-          table.appendChild(tr);
-        });
-      } catch (err) {
-        console.error("Failed to load data from", endpoint);
-      }
-    }
-
-    document.getElementById("brandingForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const body = Object.fromEntries(formData.entries());
-      const res = await fetch("/api/admin/update-branding.js", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const result = await res.json();
-      alert(result.message);
-    });
-
-    function logout() {
-      sessionStorage.removeItem("loggedIn");
-      window.location.href = "index.html";
-    }
-
-    if (!sessionStorage.getItem("loggedIn")) {
-      window.location.href = "index.html";
-    } else {
-      fetchData("/api/admin/messages.js", "messagesTable");
-      fetchData("/api/admin/recommendations.js", "recommendationsTable");
-    }
-  </script>
 </body>
 </html>
 
