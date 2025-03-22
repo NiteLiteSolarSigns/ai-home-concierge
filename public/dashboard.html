@@ -70,6 +70,25 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+
+    #ai-suggestions {
+      margin-top: 40px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    #ai-suggestions h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    #suggestion-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 15px;
+    }
   </style>
 </head>
 <body>
@@ -90,6 +109,16 @@
       <h2>🗕️ Property Calendar</h2>
       <table id="calendar-table"></table>
       <div id="event-log"></div>
+    </section>
+
+    <section id="ai-suggestions">
+      <h2>💡 AI Suggestions</h2>
+      <ul id="suggestion-list">
+        <li>📆 It's been 6 months since your last HVAC checkup. Book a service?</li>
+        <li>🌱 Lawn care service might be needed — average growth rate in your area is high in April.</li>
+        <li>💧 Your neighbor replaced their sprinkler controller and saved 20% on water — want to explore options?</li>
+        <li>🔐 It’s been over a year since your last security system test. Schedule a safety check?</li>
+      </ul>
     </section>
   </div>
 
@@ -151,4 +180,3 @@
   </script>
 </body>
 </html>
-
