@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Provider Directory</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .provider {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .provider img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .provider-info {
+      flex: 1;
+    }
+    .rating {
+      color: #ffaa00;
+    }
+    .home-btn {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+    }
+    .home-btn a {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Provider Directory</h1>
+  <div id="directory"></div>
+  <div class="home-btn">
+    <a href="dashboard.html">Return to Dashboard</a>
+  </div>
+
+  <script>
+    const directory = document.getElementById('directory');
+
+    fetch('/api/providers/list')
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(provider => {
+          const el = document.createElement('div');
+          el.className = 'provider';
+          el.innerHTML = `
+            <img src="${provider.logo || 'https://via.placeholder.com/64'}" alt="Logo" />
+            <div class="provider-info">
+              <h3>${provider.name}</h3>
+              <p>${provider.summary}</p>
+              <p><strong>Distance:</strong> ${provider.distance} miles</p>
+              <p class="rating">Rating: ${'⭐️'.repeat(provider.rating)}</p>
+              <p><em>Referred by: ${provider.referredBy}</em></p>
+            </div>
+          `;
+          directory.appendChild(el);
+        });
+      })
+      .catch(err => {
+        directory.innerHTML = '<p>Unable to load providers.</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
+
