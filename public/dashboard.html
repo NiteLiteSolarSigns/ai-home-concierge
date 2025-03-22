@@ -2,103 +2,153 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard - AI Home Concierge</title>
+  <title>AI Home Concierge Dashboard</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f2f4f7;
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
       margin: 0;
-      padding: 0;
-    }
-
-    .site-header {
-      background-color: #007bff;
-      padding: 10px 20px;
-      text-align: center;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .site-header a {
-      color: white;
-      text-decoration: none;
-      margin: 0 12px;
-      font-size: 1.05em;
-    }
-
-    .site-header a:hover {
-      text-decoration: underline;
     }
 
     header {
-      padding: 20px;
+      background-color: #007bff;
+      padding: 15px;
       text-align: center;
     }
 
-    h1 {
+    header a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1, h2 {
       color: #333;
     }
 
-    main {
-      max-width: 800px;
-      margin: 30px auto;
+    .calendar {
+      margin-top: 40px;
+    }
+
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
       background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #ccc;
     }
 
-    .section {
-      margin-bottom: 30px;
+    .calendar th, .calendar td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
     }
 
-    .section h2 {
-      color: #007bff;
-      margin-bottom: 10px;
+    .calendar th {
+      background-color: #f2f2f2;
     }
 
-    .card {
-      background-color: #f9f9f9;
-      padding: 15px 20px;
-      border-radius: 6px;
-      margin-top: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    .calendar td:hover {
+      background-color: #f0f8ff;
+      cursor: pointer;
+    }
+
+    .calendar .today {
+      background-color: #b3d7ff;
+    }
+
+    #event-log {
+      margin-top: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <nav class="site-header">
+  <header>
     <a href="/dashboard.html">🏠 Dashboard</a>
     <a href="/caretaker-wizard.html">🧠 Caretaker</a>
     <a href="/homeboard.html">🏡 HomeBoard</a>
     <a href="/branding.html">🎨 Branding</a>
     <a href="/refinance.html">💸 Refinance</a>
     <a href="/offer-negotiator.html">🤝 Offers</a>
-  </nav>
-
-  <header>
-    <h1>Welcome to Your Property Dashboard</h1>
-    <p>Your home’s digital assistant is ready.</p>
   </header>
 
-  <main>
-    <div class="section">
-      <h2>Current Offers</h2>
-      <div class="card">
-        <p>No offers yet — your home isn’t currently listed for bidding.</p>
-      </div>
-    </div>
+  <div class="container">
+    <h1>Welcome to Your Property Dashboard</h1>
+    <p>This is your control center for all things related to your home.</p>
 
-    <div class="section">
-      <h2>Next Steps</h2>
-      <div class="card">
-        <ul>
-          <li>🧠 Complete your <strong><a href="/caretaker-wizard.html">Caretaker Setup</a></strong></li>
-          <li>🎨 Customize your <strong><a href="/branding.html">Property Branding</a></strong></li>
-          <li>💸 Check your <strong><a href="/refinance.html">Refinance Snapshot</a></strong></li>
-        </ul>
-      </div>
-    </div>
-  </main>
+    <section class="calendar">
+      <h2>🗕️ Property Calendar</h2>
+      <table id="calendar-table"></table>
+      <div id="event-log"></div>
+    </section>
+  </div>
+
+  <script>
+    function buildCalendar() {
+      const table = document.getElementById('calendar-table');
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+      let html = `<thead><tr><th colspan="7">${monthNames[month]} ${year}</th></tr>`;
+      html += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody><tr>';
+
+      let day = 1;
+      for (let i = 0; i < firstDay.getDay(); i++) {
+        html += '<td></td>';
+      }
+
+      for (let i = firstDay.getDay(); i < 7; i++) {
+        const isToday = now.getDate() === day ? 'today' : '';
+        html += `<td class="${isToday}" onclick="addEvent(${day})">${day}</td>`;
+        day++;
+      }
+      html += '</tr>';
+
+      while (day <= lastDay.getDate()) {
+        html += '<tr>';
+        for (let i = 0; i < 7; i++) {
+          if (day > lastDay.getDate()) {
+            html += '<td></td>';
+          } else {
+            const isToday = now.getDate() === day ? 'today' : '';
+            html += `<td class="${isToday}" onclick="addEvent(${day})">${day}</td>`;
+            day++;
+          }
+        }
+        html += '</tr>';
+      }
+
+      html += '</tbody>';
+      table.innerHTML = html;
+    }
+
+    function addEvent(day) {
+      const note = prompt(`Add note for ${day}:`);
+      if (note) {
+        const log = document.getElementById('event-log');
+        const entry = document.createElement('p');
+        entry.innerText = `📌 ${new Date().toLocaleDateString()} – Day ${day}: ${note}`;
+        log.appendChild(entry);
+      }
+    }
+
+    buildCalendar();
+  </script>
 </body>
 </html>
 
