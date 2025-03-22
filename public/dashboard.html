@@ -2,181 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AI Home Concierge Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Home Concierge</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f7f9fc;
       margin: 0;
+      padding: 0;
     }
-
-    header {
-      background-color: #007bff;
-      padding: 15px;
-      text-align: center;
+    nav {
+      background-color: #222;
+      padding: 10px;
     }
-
-    header a {
+    nav a {
       color: white;
-      margin: 0 15px;
+      margin-right: 15px;
       text-decoration: none;
       font-weight: bold;
     }
-
+    nav a:hover {
+      text-decoration: underline;
+    }
     .container {
       padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    h1, h2 {
-      color: #333;
-    }
-
-    .calendar {
-      margin-top: 40px;
-    }
-
-    .calendar table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border: 1px solid #ccc;
-    }
-
-    .calendar th, .calendar td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .calendar th {
-      background-color: #f2f2f2;
-    }
-
-    .calendar td:hover {
-      background-color: #f0f8ff;
-      cursor: pointer;
-    }
-
-    .calendar .today {
-      background-color: #b3d7ff;
-    }
-
-    #event-log {
-      margin-top: 20px;
-      background: white;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    #ai-suggestions {
-      margin-top: 40px;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    #ai-suggestions h2 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    #suggestion-list li {
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 15px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <a href="/dashboard.html">🏠 Dashboard</a>
-    <a href="/caretaker-wizard.html">🧠 Caretaker</a>
-    <a href="/homeboard.html">🏡 HomeBoard</a>
-    <a href="/branding.html">🎨 Branding</a>
-    <a href="/refinance.html">💸 Refinance</a>
-    <a href="/offer-negotiator.html">🤝 Offers</a>
-  </header>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="branding.html">Branding</a>
+    <a href="homeboard.html">Homeboard</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="provider-directory.html">Directory</a>
+    <a href="join-network.html">Join Network</a>
+    <a href="refinance.html">Refinance</a>
+    <a href="offer-negotiator.html">Offers</a>
+    <a href="caretaker-wizard.html">Wizard</a>
+  </nav>
 
   <div class="container">
-    <h1>Welcome to Your Property Dashboard</h1>
-    <p>This is your control center for all things related to your home.</p>
-
-    <section class="calendar">
-      <h2>🗕️ Property Calendar</h2>
-      <table id="calendar-table"></table>
-      <div id="event-log"></div>
-    </section>
-
-    <section id="ai-suggestions">
-      <h2>💡 AI Suggestions</h2>
-      <ul id="suggestion-list">
-        <li>📆 It's been 6 months since your last HVAC checkup. Book a service?</li>
-        <li>🌱 Lawn care service might be needed — average growth rate in your area is high in April.</li>
-        <li>💧 Your neighbor replaced their sprinkler controller and saved 20% on water — want to explore options?</li>
-        <li>🔐 It’s been over a year since your last security system test. Schedule a safety check?</li>
-      </ul>
-    </section>
+    <h1>Welcome to AI Home Concierge</h1>
+    <p>This is your universal navigation starter page. Use this as a template for any new page you want to add.</p>
   </div>
-
-  <script>
-    function buildCalendar() {
-      const table = document.getElementById('calendar-table');
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth();
-
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
-      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
-      let html = `<thead><tr><th colspan="7">${monthNames[month]} ${year}</th></tr>`;
-      html += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody><tr>';
-
-      let day = 1;
-      for (let i = 0; i < firstDay.getDay(); i++) {
-        html += '<td></td>';
-      }
-
-      for (let i = firstDay.getDay(); i < 7; i++) {
-        const isToday = now.getDate() === day ? 'today' : '';
-        html += `<td class="${isToday}" onclick="addEvent(${day})">${day}</td>`;
-        day++;
-      }
-      html += '</tr>';
-
-      while (day <= lastDay.getDate()) {
-        html += '<tr>';
-        for (let i = 0; i < 7; i++) {
-          if (day > lastDay.getDate()) {
-            html += '<td></td>';
-          } else {
-            const isToday = now.getDate() === day ? 'today' : '';
-            html += `<td class="${isToday}" onclick="addEvent(${day})">${day}</td>`;
-            day++;
-          }
-        }
-        html += '</tr>';
-      }
-
-      html += '</tbody>';
-      table.innerHTML = html;
-    }
-
-    function addEvent(day) {
-      const note = prompt(`Add note for ${day}:`);
-      if (note) {
-        const log = document.getElementById('event-log');
-        const entry = document.createElement('p');
-        entry.innerText = `📌 ${new Date().toLocaleDateString()} – Day ${day}: ${note}`;
-        log.appendChild(entry);
-      }
-    }
-
-    buildCalendar();
-  </script>
 </body>
 </html>
+
