@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Provider Reviews</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f2f2f2; }
+    h1 { color: #333; }
+    .review { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .rating { color: gold; font-size: 1.2em; }
+  </style>
+</head>
+<body>
+  <h1>Homeowner Reviews</h1>
+  <div id="reviews-container">Loading reviews...</div>
+  <br>
+  <a href="/dashboard.html">← Back to Dashboard</a>
+
+  <script>
+    fetch('/api/providers/reviews')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('reviews-container');
+        container.innerHTML = "";
+        data.forEach(r => {
+          const review = document.createElement('div');
+          review.className = 'review';
+          review.innerHTML = `
+            <strong>${r.reviewer}</strong> says:<br>
+            <em>"${r.review}"</em><br>
+            <div class="rating">Rating: ${'⭐️'.repeat(r.rating)}</div>
+            <small>Provider: ${r.provider}</small>
+          `;
+          container.appendChild(review);
+        });
+      })
+      .catch(err => {
+        document.getElementById('reviews-container').innerText = "Failed to load reviews.";
+      });
+  </script>
+</body>
+</html>
+
