@@ -1,88 +1,72 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.4">
-  <style type="text/css">
-    body {background-color: #f2f2f2}
-    span.s1 {font-kerning: none}
+  <meta charset="UTF-8" />
+  <title>Service Provider Directory</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    #provider-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .provider-card {
+      background-color: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .provider-card h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+    .provider-card p {
+      margin: 5px 0;
+    }
   </style>
 </head>
 <body>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;!DOCTYPE html&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;html lang="en"&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;head&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;title&gt;Service Provider Directory&lt;/title&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;style&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>body {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>background-color: #f5f5f5;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>padding: 20px;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>h1 {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>color: #333;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>#provider-list {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>display: flex;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>flex-wrap: wrap;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>gap: 20px;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>.provider-card {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>background-color: #fff;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>padding: 15px;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>border: 1px solid #ccc;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>border-radius: 8px;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>width: 300px;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>box-shadow: 0 2px 4px rgba(0,0,0,0.1);</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>.provider-card h3 {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>margin-top: 0;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>font-size: 18px;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>.provider-card p {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>margin: 5px 0;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/style&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;/head&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;body&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;h1&gt;Service Provider Directory&lt;/h1&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;div id="provider-list"&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;!-- Provider cards will be inserted here --&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/div&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616; min-height: 16.0px"><span class="s1"><b></b></span><br></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;script&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>async function loadProviders() {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>try {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>const response = await fetch('/api/providers/list');</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>const providers = await response.json();</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616; min-height: 16.0px"><span class="s1"><b></b></span><br></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>const container = document.getElementById('provider-list');</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>container.innerHTML = '';</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616; min-height: 16.0px"><span class="s1"><b></b></span><br></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>providers.forEach(provider =&gt; {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">          </span>const card = document.createElement('div');</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">          </span>card.className = 'provider-card';</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">          </span>card.innerHTML = `</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;h3&gt;${provider.name}&lt;/h3&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;Category:&lt;/strong&gt; ${provider.category}&lt;/p&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;Phone:&lt;/strong&gt; ${provider.phone}&lt;/p&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;Email:&lt;/strong&gt; ${provider.email}&lt;/p&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;City:&lt;/strong&gt; ${provider.city || ''}&lt;/p&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">          </span>`;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">          </span>container.appendChild(card);</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>});</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>} catch (err) {</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">        </span>console.error('Error loading providers:', err);</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">      </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616; min-height: 16.0px"><span class="s1"><b></b></span><br></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">    </span>loadProviders();</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b><span class="Apple-converted-space">  </span>&lt;/script&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;/body&gt;</b></span></h1>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 14.0px Arial; color: #161616; -webkit-text-stroke: #161616"><span class="s1"><b>&lt;/html&gt;</b></span></h1>
+  <h1>Service Provider Directory</h1>
+  <div id="provider-list">
+    <!-- Provider cards will be inserted here -->
+  </div>
+
+  <script>
+    async function loadProviders() {
+      try {
+        const response = await fetch('/api/providers/list');
+        const providers = await response.json();
+
+        const container = document.getElementById('provider-list');
+        container.innerHTML = '';
+
+        providers.forEach(provider => {
+          const card = document.createElement('div');
+          card.className = 'provider-card';
+          card.innerHTML = `
+            <h3>${provider.name}</h3>
+            <p><strong>Category:</strong> ${provider.category}</p>
+            <p><strong>Phone:</strong> ${provider.phone}</p>
+            <p><strong>Email:</strong> ${provider.email}</p>
+            <p><strong>City:</strong> ${provider.city || ''}</p>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Error loading providers:', err);
+      }
+    }
+
+    loadProviders();
+  </script>
 </body>
 </html>
