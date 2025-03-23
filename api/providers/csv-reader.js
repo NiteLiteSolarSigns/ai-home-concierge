@@ -1,23 +1,24 @@
 import fs from 'fs';
 import path from 'path';
-import { parse } from 'csv-parse/sync';
+import csv from 'csv-parser';
 
-export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
+export default function handler(req, res) {
+  const filePath = path.join(process.cwd(), 'public', 'data', 'providers.csv');
+  const results = [];
 
   try {
-    const filePath = path.join(process.cwd(), 'public', 'data', 'providers.csv');
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const records = parse(fileContent, {
-      columns: true,
-      skip_empty_lines: true
-    });
-
-    res.status(200).json(records);
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', () => {
+        res.status(200).json(results);
+      })
+      .on('error', (err) => {
+        console.error('Stream error:', err);
+        res.status(500).json({ message: 'Error reading CSV file' });
+      });
   } catch (error) {
-    console.error('Error reading providers.csv:', error);
+    console.error('Catch error:', error);
     res.status(500).json({ message: 'Failed to load provider data' });
   }
 }
