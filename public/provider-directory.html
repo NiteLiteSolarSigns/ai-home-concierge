@@ -40,33 +40,34 @@
     <!-- Provider cards will be inserted here -->
   </div>
 
-  <script>
-    async function loadProviders() {
-      try {
-        const response = await fetch('/api/providers/list');
-        const providers = await response.json();
+<script>
+  async function loadProviders() {
+    try {
+      const response = await fetch('/data/providers.json');
+      const providers = await response.json();
 
-        const container = document.getElementById('provider-list');
-        container.innerHTML = '';
+      const container = document.getElementById('provider-list');
+      container.innerHTML = '';
 
-        providers.forEach(provider => {
-          const card = document.createElement('div');
-          card.className = 'provider-card';
-          card.innerHTML = `
-            <h3>${provider.name}</h3>
-            <p><strong>Category:</strong> ${provider.category}</p>
-            <p><strong>Phone:</strong> ${provider.phone}</p>
-            <p><strong>Email:</strong> ${provider.email}</p>
-            <p><strong>City:</strong> ${provider.city || ''}</p>
-          `;
-          container.appendChild(card);
-        });
-      } catch (err) {
-        console.error('Error loading providers:', err);
-      }
+      providers.forEach(provider => {
+        const card = document.createElement('div');
+        card.className = 'provider-card';
+        card.innerHTML = `
+          <h3>${provider["Business Name"]}</h3>
+          <p><strong>Category:</strong> ${provider["Category"]}</p>
+          <p><strong>Phone:</strong> ${provider["Phone"]}</p>
+          <p><strong>Email:</strong> ${provider["Email"]}</p>
+          <p><strong>Zip Code:</strong> ${provider["Zip Code"]}</p>
+        `;
+        container.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Error loading providers:', err);
     }
+  }
 
-    loadProviders();
-  </script>
+  loadProviders();
+</script>
+
 </body>
 </html>
